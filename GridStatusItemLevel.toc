@@ -1,0 +1,14 @@
+## Interface: 50400
+## Version: 1
+
+## Title: GridStatusItemLevel
+## Author: Moonmann
+## Notes: Grid status indicator for party/raid item level
+## RequiredDeps: Grid
+## DefaultState: Enabled
+## LoadOnDemand: 0
+
+
+libs\LibItemUpgradeInfo-1.0\LibItemUpgradeInfo-1.0.xml
+
+GridStatusItemLevel.lua
