@@ -39,7 +39,7 @@ end
 
 function GridStatusItemLevel:OnEnable()
 	refreshTimer = self:ScheduleRepeatingTimer("UpdateAllUnits", 0)
-	clearCacheTimer = self:ScheduleRepeatingTimer("ClearCache", 7200) --we purge the cache every 2 hours
+	clearCacheTimer = self:ScheduleRepeatingTimer("ClearCache", 60) --we purge the cache every 2 hours
 end
 
 function GridStatusItemLevel:RegisterStatuses()
@@ -128,23 +128,25 @@ function CalculateItemLevel(guid, unitid)
 		if(i ~= SHIRT) then
 			local item = GetInventoryItemLink(unitid, i)
 			if(item) then
-				count = count + 1
 				local upgradeID = ItemUpgradeInfo:GetUpgradeID(item)
 				local upgrade = ItemUpgradeInfo:GetCurrentUpgrade(upgradeID)
 				_,_,_,itemLevel,_,_,_,_,equipType = GetItemInfo(item)
 
-				if(i == WEP) then
-					if(equipType == "INVTYPE_2HWEAPON" or equipType == "INVTYPE_RANGED" or equipType == "INVTYPE_RANGEDRIGHT") then
-						twoHander = 1
+				if(itemLevel) then
+					count = count + 1
+					if(i == WEP) then
+						if(equipType == "INVTYPE_2HWEAPON" or equipType == "INVTYPE_RANGED" or equipType == "INVTYPE_RANGEDRIGHT") then
+							twoHander = 1
+						end
 					end
-				end
 
-				if(upgrade == 1) then 
-					itemLevel = itemLevel + 4
-				elseif(upgrade == 2) then
-					itemLevel = itemLevel + 8
+					if(upgrade == 1) then 
+						itemLevel = itemLevel + 4
+					elseif(upgrade == 2) then
+						itemLevel = itemLevel + 8
+					end
+					totalIlvl = totalIlvl + itemLevel
 				end
-				totalIlvl = totalIlvl + itemLevel
 			end
 		end
 	end
