@@ -39,7 +39,7 @@ end
 
 function GridStatusItemLevel:OnEnable()
 	refreshTimer = self:ScheduleRepeatingTimer("UpdateAllUnits", 0)
-	clearCacheTimer = self:ScheduleRepeatingTimer("ClearCache", 60) --we purge the cache every 2 hours
+	clearCacheTimer = self:ScheduleRepeatingTimer("ClearCache", 600) --we purge the cache every 10 minutes, this should keep party fairly up to date 
 end
 
 function GridStatusItemLevel:RegisterStatuses()
