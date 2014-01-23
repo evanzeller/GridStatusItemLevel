@@ -16,4 +16,5 @@ Changelog
 
 ## 1.1.0
 * Your personal item level now updates everytime your gear changes, so it is always up to date.
+* Cache is now purged every 10 minutes, down from 2 hours to keep your party's item levels more up to date.
 * Inspection frequency limit changed to once every 2 seconds, down from 5.
