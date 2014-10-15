@@ -92,7 +92,13 @@ function GridStatusItemLevel:UpdateUnit(guid, unitid)
 			if((GetTime() - lastInspectTime) > 2) then
 				cache[guid] = {itemLevel = 0, uid = unitid}
 				GridStatusItemLevel_InspectFrame:RegisterEvent("INSPECT_READY")
-				NotifyInspect(unitid)
+				if(InspectFrame) then
+					if(not InspectFrame:IsVisible()) then
+						NotifyInspect(unitid)
+					end
+				else
+					NotifyInspect(unitid)
+				end
 			end
 		end
 	else
@@ -144,22 +150,31 @@ function CalculateItemLevel(guid, unitid)
 						itemLevel = itemLevel + 4
 					elseif(upgrade == 2) then
 						itemLevel = itemLevel + 8
+					elseif(upgrade == 3) then
+						itemLevel = itemLevel + 12
+					elseif(upgrade == 4) then
+						itemLevel = itemLevel + 16
 					end
 					totalIlvl = totalIlvl + itemLevel
 				end
 			end
 		end
 	end
-	if((count <= 15) and (not twoHander)) then --often we miss an item, if we did we set item level = 0 so we know to recalculate
-		avgIlvl = 0
-		cache[guid].itemLevel = avgIlvl
-	elseif(count >= 15) then
+	if((count == 15) and twoHander) then
 		avgIlvl = math.floor(totalIlvl / count)
 		cache[guid].itemLevel = avgIlvl
 		SendUpdate(guid, unitid, avgIlvl)
-	else
-		avgIlvl = 0
+	elseif((count == 16) and not twoHander) then
+		avgIlvl = math.floor(totalIlvl / count)
 		cache[guid].itemLevel = avgIlvl
+		SendUpdate(guid, unitid, avgIlvl)
+	elseif((count == 16) and twoHander) then
+		avgIlvl = math.floor(totalIlvl / 16)
+		cache[guid].itemLevel = avgIlvl
+		SendUpdate(guid, unitid, avgIlvl)
+	else
+		avgIlvl = math.floor(totalIlvl / 15)
+		cache[guid].itemLevel = 0
 		SendUpdate(guid, unitid, avgIlvl)
 	end
 end
